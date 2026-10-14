@@ -1,0 +1,59 @@
+{
+ "session_id": "s-0003",
+ "clauses": [
+  {
+   "t": 4.56,
+   "src_s": 4.72,
+   "hi": "100 किलोमीटर दूर स्थित है",
+   "en": "It is located 100 kilometers away",
+   "out_start": 0,
+   "out_end": 80998,
+   "t_send": 5.935
+  },
+  {
+   "t": 4.56,
+   "src_s": 4.72,
+   "hi": "पचमढ़ी।",
+   "en": "Pachmarhi.",
+   "out_start": 80998,
+   "out_end": 117862,
+   "t_send": 6.953
+  },
+  {
+   "t": 8.554,
+   "src_s": 8.72,
+   "hi": "जिस पर हम नज़ारा देखते जाते हैं",
+   "en": "On which we keep watching the scenery",
+   "out_start": 117862,
+   "out_end": 191384,
+   "t_send": 9.684
+  },
+  {
+   "t": 8.554,
+   "src_s": 8.72,
+   "hi": "तो एक।",
+   "en": "So one.",
+   "out_start": 191384,
+   "out_end": 217264,
+   "t_send": 10.557
+  },
+  {
+   "t": 9.296,
+   "src_s": 9.273,
+   "hi": "पहली बात करें",
+   "en": "First, let's talk",
+   "out_start": 217264,
+   "out_end": 264918,
+   "t_send": 11.585
+  },
+  {
+   "t": 9.296,
+   "src_s": 9.273,
+   "hi": "तो जल वन।",
+   "en": "So, water forest.",
+   "out_start": 264918,
+   "out_end": 346138,
+   "t_send": 12.803
+  }
+ ]
+}

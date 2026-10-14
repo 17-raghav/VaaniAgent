@@ -1,0 +1,32 @@
+{
+ "session_id": "s-0001",
+ "clauses": [
+  {
+   "t": 5.446,
+   "src_s": 6.24,
+   "hi": "काफी दृश्यों का नज़ारा देखने को मिलता है",
+   "en": "A view of many scenes is available to see",
+   "out_start": 0,
+   "out_end": 89716,
+   "t_send": 6.867
+  },
+  {
+   "t": 5.446,
+   "src_s": 6.24,
+   "hi": "जैसे कि।",
+   "en": "Like that.",
+   "out_start": 89716,
+   "out_end": 118592,
+   "t_send": 7.78
+  },
+  {
+   "t": 10.291,
+   "src_s": 10.748,
+   "hi": "वहाँ पर हाईवे पर हम लोगों को जाते समय समय हाईवे ये होशंगाबाद से लगभग।",
+   "en": "There, on the highway, while we were going, the highway was approximately from Hoshangabad.",
+   "out_start": 118592,
+   "out_end": 382066,
+   "t_send": 12.637
+  }
+ ]
+}

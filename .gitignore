@@ -6,3 +6,9 @@ calls.log
 *.wav
 .env
 *.env
+_to_delete/
+*.zip
+hinglish_data_engine/
+run_colab.ipynb
+Raghav_Sharma_CV.*
+stream_spend.json

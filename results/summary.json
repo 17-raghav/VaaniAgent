@@ -1,0 +1,41 @@
+{
+ "summary": {
+  "start_lag_s": 5.64,
+  "end_offset_s": 5.566,
+  "laal_s": 6.12,
+  "sessions": 3,
+  "failed": 0
+ },
+ "sessions": [
+  {
+   "source_s": 10.75,
+   "output_s": 7.96,
+   "start_lag_s": 7.647,
+   "end_offset_s": 8.165,
+   "laal_s": 6.844,
+   "english_words": 25,
+   "wav": "clips\\rec-r00003.wav",
+   "problems": []
+  },
+  {
+   "source_s": 9.62,
+   "output_s": 2.71,
+   "start_lag_s": 3.176,
+   "end_offset_s": 3.136,
+   "laal_s": 5.518,
+   "english_words": 8,
+   "wav": "clips\\rec-r00001.wav",
+   "problems": []
+  },
+  {
+   "source_s": 9.27,
+   "output_s": 7.21,
+   "start_lag_s": 6.097,
+   "end_offset_s": 5.396,
+   "laal_s": 5.998,
+   "english_words": 22,
+   "wav": "clips\\rec-r00004.wav",
+   "problems": []
+  }
+ ]
+}

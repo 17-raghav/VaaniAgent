@@ -1,0 +1,11 @@
+.venv
+old
+__pycache__
+.pytest_cache
+logs
+results
+*.wav
+*.log
+*.zip
+hinglish_data_engine
+stream_s2st

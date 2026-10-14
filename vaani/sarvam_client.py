@@ -1,8 +1,11 @@
-"""Thin wrappers around the Sarvam SDK: STT, chat, TTS.
+"""Thin wrappers around the Sarvam SDK: STT, chat, TTS (agent) and in-memory
+STT, translation and 24 kHz English TTS (streaming interpreter, vaani/stream).
 
 Every real API call is logged to calls.log and counted on the console.
 In mock mode no API call is ever made; canned responses are returned instead.
 """
+import base64
+import io
 import json
 import os
 from datetime import datetime
@@ -13,8 +16,13 @@ TTS_LANGS = {"bn-IN", "en-IN", "gu-IN", "hi-IN", "kn-IN", "ml-IN", "mr-IN",
 
 
 class SarvamClient:
-    def __init__(self, mock=False, mock_replies=None):
+    def __init__(self, mock=False, mock_replies=None, max_credits=None):
         self.mock = mock
+        # optional hard cap on Sarvam spend (₹) for the streaming interpreter
+        self.ledger = None
+        if max_credits is not None:
+            from vaani.budget import Ledger
+            self.ledger = Ledger("stream_spend.json", max_credits)
         self.mock_replies = mock_replies  # optional list of raw chat replies (tests)
         self.count = 0
         if not mock:
@@ -62,6 +70,51 @@ class SarvamClient:
             text=text, language_code=lang, model="bulbul:v4-flash")
         save(r, out_path)  # decodes the base64 audio chunks into one WAV
         return out_path
+
+    # ---- streaming interpreter (vaani/stream) ----
+    def _charge(self, kind, cost):
+        """Refuse the call if it would pass the cap; otherwise record it."""
+        if self.ledger is not None:
+            self.ledger.check(kind, cost)
+            self.ledger.record(kind, cost)
+
+    def stt_pcm(self, wav_bytes: bytes) -> str:
+        """Hindi ASR on an in-memory WAV (the open streaming segment). Saaras v3, transcribe mode."""
+        if self.mock:
+            return ""
+        import soundfile as sf
+        from vaani.budget import stt_cost
+        self._charge("stt", stt_cost(sf.info(io.BytesIO(wav_bytes)).duration))
+        self._log("stt saaras:v3 (stream)")
+        r = self.client.speech_to_text.transcribe(
+            file=("segment.wav", io.BytesIO(wav_bytes), "audio/wav"),
+            model="saaras:v3", mode="transcribe", language_code="hi-IN")
+        return r.transcript
+
+    def translate(self, hindi: str) -> str:
+        """Hindi -> English with Mayura; digits kept as digits."""
+        if self.mock:
+            return f"EN[{hindi}]"
+        from vaani.budget import text_cost
+        self._charge("translate", text_cost(hindi))
+        self._log("translate mayura:v1")
+        r = self.client.text.translate(input=hindi, source_language_code="hi-IN",
+                                       target_language_code="en-IN", model="mayura:v1",
+                                       numerals_format="international")
+        return r.translated_text
+
+    def tts_english_24k(self, text: str, pace: float = 1.1) -> bytes:
+        """English speech, Bulbul v3 voice 'shubh' at 24 kHz (the voice the
+        competition requires for its English targets). Returns WAV bytes."""
+        if self.mock:
+            return b""
+        from vaani.budget import tts_cost
+        self._charge("tts", tts_cost(text))
+        self._log("tts bulbul:v3 shubh (stream)")
+        r = self.client.text_to_speech.convert(
+            text=text, language_code="en-IN", model="bulbul:v3", speaker="shubh",
+            pace=pace, speech_sample_rate=24000)
+        return base64.b64decode(r.audios[0])
 
     # ---- canned chat replies for --mock ----
     def _mock_chat(self, messages):
